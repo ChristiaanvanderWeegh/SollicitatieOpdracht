@@ -32,7 +32,10 @@ namespace Client.Controllers
             var serverResponse = await (await AccessTokenRefreshWrapper(
                 () => SecuredGetRequest("https://localhost:44303/secret/index"))).Content.ReadAsStringAsync();
 
-            return View(model: new OAuthSecretResponse(serverResponse));
+            var apiResponse = await (await AccessTokenRefreshWrapper(
+             () => SecuredGetRequest("https://localhost:44332/secret/index"))).Content.ReadAsStringAsync();
+
+            return View(model: new OAuthSecretResponse(serverResponse, apiResponse));
         }
 
         [HttpGet, Authorize]
