@@ -26,6 +26,10 @@ namespace Client.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Try and receive access and information from Api and OAuth2Api.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, Authorize]
         public async Task<IActionResult> Secret()
         {
@@ -38,6 +42,10 @@ namespace Client.Controllers
             return View(model: new OAuthSecretResponse(serverResponse, apiResponse));
         }
 
+        /// <summary>
+        /// Clear the cookie which contains the accesstoken
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, Authorize]
         public IActionResult ClearAccessToken()
         {
@@ -45,6 +53,11 @@ namespace Client.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Try to recieve the token from the request.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         private async Task<HttpResponseMessage> SecuredGetRequest(string url)
         {
             var token = await HttpContext.GetTokenAsync("access_token");
@@ -58,6 +71,7 @@ namespace Client.Controllers
         {
             var response = await initialRequest();
 
+            // Not able to retrieve te token? Try creating a refresh token and retry the request.
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 await RefreshAccessToken();
@@ -67,6 +81,10 @@ namespace Client.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Create refresh token and assign to HttpContext.
+        /// </summary>
+        /// <returns></returns>
         private async Task RefreshAccessToken()
         {
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
