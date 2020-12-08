@@ -26,15 +26,17 @@ namespace OAuth2Api.Controllers
             string scope,
             string state)
         {
-            var query = new QueryBuilder();
-            query.Add("code", code);
-            query.Add("clientid", client_id);
-            query.Add("clientsecret", client_secret);
-            query.Add("redirectUri", redirect_uri);
-            query.Add("scope", scope);
-            query.Add("state", state);
+            var model = new AuthorizeRequestModel()
+            {
+                code = code,
+                client_id = client_id,
+                client_secret = client_secret,
+                redirect_uri = redirect_uri,
+                scope = scope,
+                state = state
+            };
 
-            return View(model: query.ToString());
+            return View(model);
         }
 
         /// <summary>
@@ -53,8 +55,7 @@ namespace OAuth2Api.Controllers
             query.Add("scope", model.scope);
             query.Add("state", model.state);
 
-
-            return Redirect($"{model.redirectUri}{query}");
+            return Redirect($"{model.redirect_uri}{query}");
         }
     }
 }
