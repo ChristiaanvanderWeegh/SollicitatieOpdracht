@@ -1,9 +1,22 @@
-﻿@model string
+﻿@using OAuth2Api.Models
+@model AuthorizeRequestModel
 
-@{ var url = $"/OAuth/Authorize{Model}"; }
-
-@Model
-
-<form action="@url" method="post">
+<style>
+    .field-validation-error {
+        color: #e80c4d;
+        font-weight: bold;
+    }
+</style>
+<h1>Get your accesstoken</h1>
+<form method="post">
+    @Html.HiddenFor(t => t.code)
+    @Html.HiddenFor(t => t.client_id)
+    @Html.HiddenFor(t => t.client_secret)
+    @Html.HiddenFor(t => t.redirect_uri)
+    @Html.HiddenFor(t => t.scope)
+    @Html.HiddenFor(t => t.state)
+    @Html.ValidationMessageFor(t => t.username) <br />
+    <label>Username:</label>
+    <input type="text" name="username" value="" /><br />
     <input type="submit" value="Submit" />
 </form>

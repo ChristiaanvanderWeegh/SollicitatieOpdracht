@@ -8,7 +8,7 @@ namespace OAuth2Api.Controllers
         [Authorize]
         public string Index()
         {
-            return "Some secret message via server";
+            return "Some secret message via OAuth2Api only accessable with an access token";
         }
     }
 }

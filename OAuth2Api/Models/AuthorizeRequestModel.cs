@@ -1,7 +1,10 @@
-﻿namespace OAuth2Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace OAuth2Api.Models
 {
     public class AuthorizeRequestModel
     {
+        [Required]
         public string username { get; set; }
         public string code { get; set; }
         public string client_id { get; set; }
